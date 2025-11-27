@@ -91,14 +91,14 @@ public class DataLoader {
         // ----- Empleados -----
         if (empleadoRepository.count() == 0) {
             Empleado emp1 = new Empleado();
-            emp1.setNombre("Juan Pérez");
+            emp1.setNombre("Sandro Veliz");
             Set<Rol> roles1 = new HashSet<>();
             roles1.add(docenteRol);
             emp1.setRoles(roles1);
             empleadoRepository.save(emp1);
 
             Empleado emp2 = new Empleado();
-            emp2.setNombre("María López");
+            emp2.setNombre("Nicole Vilcahuaman");
             Set<Rol> roles2 = new HashSet<>();
             roles2.add(adminRol);
             emp2.setRoles(roles2);
@@ -111,15 +111,15 @@ public class DataLoader {
             Empleado emp2 = empleadoRepository.findAll().get(1);
 
             Usuario user1 = new Usuario();
-            user1.setUsername("juanp");
-            user1.setPassword("123456"); // ⚠ En producción, usar BCrypt
+            user1.setUsername("sandrov");
+            user1.setPassword("12345678"); // ⚠ En producción, usar BCrypt
             user1.setNombre(emp1.getNombre());
             user1.setEmpleado(emp1);
             usuarioRepository.save(user1);
 
             Usuario user2 = new Usuario();
-            user2.setUsername("marial");
-            user2.setPassword("123456");
+            user2.setUsername("nicolev");
+            user2.setPassword("12345678");
             user2.setNombre(emp2.getNombre());
             user2.setEmpleado(emp2);
             usuarioRepository.save(user2);

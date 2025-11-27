@@ -1,6 +1,7 @@
 package com.plataforma.plataforma.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore; // 👈 Agrega esta importación
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -14,30 +15,45 @@ public class Empleado {
 
     private String nombre;
 
-    // Relación muchos a muchos con roles
-    @ManyToMany
+    // Aquí SÍ enviamos los roles al frontend
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "empleado_roles",
-        joinColumns = @JoinColumn(name = "empleado_id"),
-        inverseJoinColumns = @JoinColumn(name = "rol_id")
+            name = "empleado_roles",
+            joinColumns = @JoinColumn(name = "empleado_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
+    @JsonManagedReference
     private Set<Rol> roles;
 
-    // Relación uno a uno con Usuario
+    // Usuario → relación 1:1 (no queremos recursión)
     @OneToOne(mappedBy = "empleado", cascade = CascadeType.ALL)
-    @JsonIgnore // 👈 Agrega esto para evitar la recursión con Usuario
+    @JsonIgnore
     private Usuario usuario;
 
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters y Setters...
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public Long getId()
+    { return id; }
 
-    public Set<Rol> getRoles() { return roles; }
-    public void setRoles(Set<Rol> roles) { this.roles = roles; }
+    public void setId(Long id)
+    { this.id = id; }
 
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public String getNombre()
+    { return nombre; }
+
+    public void setNombre(String nombre)
+    { this.nombre = nombre; }
+
+    public Set<Rol> getRoles()
+    { return roles; }
+
+    public void setRoles(Set<Rol> roles)
+    { this.roles = roles; }
+
+    public Usuario getUsuario()
+    { return usuario; }
+
+    public void setUsuario(Usuario usuario)
+    { this.usuario = usuario; }
+
 }

@@ -5,6 +5,8 @@ import com.plataforma.plataforma.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+
 
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
@@ -50,9 +52,13 @@ public class UsuarioController {
             return ResponseEntity.noContent().<Void>build();
         }).orElse(ResponseEntity.notFound().build());
     }
-
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> login(@RequestBody Usuario userRequest) {
+
+        if (userRequest.getUsername() == null || userRequest.getPassword() == null) {
+            return ResponseEntity.badRequest().body("Faltan credenciales");
+        }
+
         return usuarioRepository.findByUsername(userRequest.getUsername())
                 .map(usuario -> {
                     if (usuario.getPassword().equals(userRequest.getPassword())) {

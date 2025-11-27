@@ -18,10 +18,12 @@ public class Usuario {
 
     private String nombre;
 
-    // Relación uno a uno con Empleado
     @OneToOne
     @JoinColumn(name = "empleado_id", referencedColumnName = "id")
     private Empleado empleado;
+
+    // 🔥 Constructor vacío (OBLIGATORIO)
+    public Usuario() {}
 
     // Getters y Setters
     public Long getId() { return id; }

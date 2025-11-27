@@ -1,6 +1,6 @@
 package com.plataforma.plataforma.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore; // 👈 agrega esta importación
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -13,11 +13,10 @@ public class Rol {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String nombre; // DOCENTE, ADMINISTRATIVO, etc.
+    private String nombre;
 
-    // Relación inversa con Empleado
     @ManyToMany(mappedBy = "roles")
-    @JsonIgnore // 👈 agrega esto para evitar la recursión infinita
+    @JsonBackReference   // 🔵 Relación inversa al JsonManagedReference de Empleado
     private Set<Empleado> empleados;
 
     // Getters y Setters
