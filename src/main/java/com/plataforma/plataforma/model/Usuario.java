@@ -1,9 +1,11 @@
 package com.plataforma.plataforma.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Usuario {
 
     @Id
@@ -20,6 +22,7 @@ public class Usuario {
 
     @OneToOne
     @JoinColumn(name = "empleado_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"usuario"})
     private Empleado empleado;
 
     // 🔥 Constructor vacío (OBLIGATORIO)

@@ -1,5 +1,6 @@
 package com.plataforma.plataforma.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pedido {
 
     @Id
@@ -16,6 +18,7 @@ public class Pedido {
     // ❗ AHORA el pedido pertenece a un usuario (id real)
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonIgnoreProperties({"empleado", "password"})
     private Usuario usuario;
 
     private LocalDateTime fecha;

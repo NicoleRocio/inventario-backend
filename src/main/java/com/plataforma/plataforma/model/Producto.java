@@ -1,10 +1,11 @@
 package com.plataforma.plataforma.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "productos")
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Producto {
 
     @Id

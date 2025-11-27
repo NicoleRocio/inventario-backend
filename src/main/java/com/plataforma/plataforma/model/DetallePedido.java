@@ -1,10 +1,12 @@
 package com.plataforma.plataforma.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "detalle_pedido")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DetallePedido {
 
     @Id

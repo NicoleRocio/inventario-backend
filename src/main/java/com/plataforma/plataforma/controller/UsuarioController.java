@@ -1,5 +1,6 @@
 package com.plataforma.plataforma.controller;
 
+import com.plataforma.plataforma.dto.LoginRequest;
 import com.plataforma.plataforma.model.Usuario;
 import com.plataforma.plataforma.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,16 +53,16 @@ public class UsuarioController {
             return ResponseEntity.noContent().<Void>build();
         }).orElse(ResponseEntity.notFound().build());
     }
-    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> login(@RequestBody Usuario userRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
-        if (userRequest.getUsername() == null || userRequest.getPassword() == null) {
+        if (loginRequest.getUsername() == null || loginRequest.getPassword() == null) {
             return ResponseEntity.badRequest().body("Faltan credenciales");
         }
 
-        return usuarioRepository.findByUsername(userRequest.getUsername())
+        return usuarioRepository.findByUsername(loginRequest.getUsername())
                 .map(usuario -> {
-                    if (usuario.getPassword().equals(userRequest.getPassword())) {
+                    if (usuario.getPassword().equals(loginRequest.getPassword())) {
                         return ResponseEntity.ok(usuario);
                     } else {
                         return ResponseEntity.status(401).body("Contraseña incorrecta");

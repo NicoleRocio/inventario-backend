@@ -1,11 +1,13 @@
 package com.plataforma.plataforma.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Rol {
 
     @Id
@@ -16,7 +18,7 @@ public class Rol {
     private String nombre;
 
     @ManyToMany(mappedBy = "roles")
-    @JsonBackReference   // 🔵 Relación inversa al JsonManagedReference de Empleado
+    @JsonIgnore
     private Set<Empleado> empleados;
 
     // Getters y Setters

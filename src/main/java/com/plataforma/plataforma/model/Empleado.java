@@ -1,12 +1,13 @@
 package com.plataforma.plataforma.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "empleados")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Empleado {
 
     @Id
@@ -22,7 +23,6 @@ public class Empleado {
             joinColumns = @JoinColumn(name = "empleado_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
-    @JsonManagedReference
     private Set<Rol> roles;
 
     // Usuario → relación 1:1 (no queremos recursión)

@@ -2,6 +2,7 @@ package com.plataforma.plataforma.controller;
 
 import com.plataforma.plataforma.model.Pedido;
 import com.plataforma.plataforma.repository.PedidoRepository;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +27,18 @@ public class PedidoController {
     }
 
     // ✅ Crear pedido
-    @PostMapping
-    public Pedido crear(@RequestBody Pedido pedido) {
-        // Asignar relación bidireccional
-        if (pedido.getDetalles() != null) {
-            pedido.getDetalles().forEach(detalle -> detalle.setPedido(pedido));
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Pedido> crear(@RequestBody Pedido pedido) {
+        try {
+            // Asignar relación bidireccional
+            if (pedido.getDetalles() != null) {
+                pedido.getDetalles().forEach(detalle -> detalle.setPedido(pedido));
+            }
+            Pedido pedidoGuardado = pedidoRepository.save(pedido);
+            return ResponseEntity.ok(pedidoGuardado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
-        return pedidoRepository.save(pedido);
     }
 
     // ✅ Obtener pedido por ID
