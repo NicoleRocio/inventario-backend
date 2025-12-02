@@ -1,7 +1,9 @@
 package com.plataforma.plataforma.controller;
 
+import com.plataforma.plataforma.dto.ProductoAsignadoDTO;
 import com.plataforma.plataforma.model.Pedido;
 import com.plataforma.plataforma.repository.PedidoRepository;
+import com.plataforma.plataforma.service.PedidoService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ import java.util.Map;
 public class PedidoController {
 
     private final PedidoRepository pedidoRepository;
+    private final PedidoService pedidoService;
 
-    public PedidoController(PedidoRepository pedidoRepository) {
+    public PedidoController(PedidoRepository pedidoRepository, PedidoService pedidoService) {
         this.pedidoRepository = pedidoRepository;
+        this.pedidoService = pedidoService;
     }
 
     // ✅ Obtener todos los pedidos (para el admin)
@@ -30,7 +34,6 @@ public class PedidoController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Pedido> crear(@RequestBody Pedido pedido) {
         try {
-            // Asignar relación bidireccional
             if (pedido.getDetalles() != null) {
                 pedido.getDetalles().forEach(detalle -> detalle.setPedido(pedido));
             }
@@ -52,6 +55,12 @@ public class PedidoController {
     @GetMapping("/usuario/{id}")
     public List<Pedido> obtenerPorUsuario(@PathVariable Long id) {
         return pedidoRepository.findByUsuarioId(id);
+    }
+
+    // 🆕 Productos asignados (pedidos ATENDIDOS) para un usuario
+    @GetMapping("/asignados/{usuarioId}")
+    public List<ProductoAsignadoDTO> obtenerAsignados(@PathVariable Long usuarioId) {
+        return pedidoService.getProductosAsignados(usuarioId);
     }
 
     // 🆕 ACTUALIZAR ESTADO DEL PEDIDO (En espera / Atendido)

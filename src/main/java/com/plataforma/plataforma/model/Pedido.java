@@ -15,7 +15,7 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ❗ AHORA el pedido pertenece a un usuario (id real)
+    //  AHORA el pedido pertenece a un usuario (id real)
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     @JsonIgnoreProperties({"empleado", "password"})

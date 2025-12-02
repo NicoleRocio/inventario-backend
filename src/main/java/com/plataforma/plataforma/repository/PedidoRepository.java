@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
-    // NUEVO: Obtener pedidos por ID del usuario
+    // Pedidos por usuario (lo que ya tenías)
     List<Pedido> findByUsuarioId(Long usuarioId);
+
+    // 🆕 Pedidos por usuario y estado (para MisProductosAsignados)
+    List<Pedido> findByUsuarioIdAndEstado(Long usuarioId, String estado);
 }
