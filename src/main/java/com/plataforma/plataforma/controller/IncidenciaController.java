@@ -39,4 +39,9 @@ public class IncidenciaController {
                                        @RequestBody Map<String, String> body) {
         return incidenciaService.actualizarEstado(id, body.get("estado"));
     }
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Long id) {
+        incidenciaService.eliminar(id);
+    }
+
 }

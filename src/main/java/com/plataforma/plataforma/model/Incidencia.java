@@ -17,7 +17,7 @@ public class Incidencia {
     private String descripcion;
 
     private String estado = "Pendiente";
-
+//@JsonFormat(pattern = "dd/MM/yyyy") importante para formatear fechas
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime fecha;
 

@@ -52,4 +52,8 @@ public class IncidenciaService {
         incidencia.setEstado(estado);
         return incidenciaRepository.save(incidencia);
     }
+    public void eliminar(Long id) {
+        incidenciaRepository.deleteById(id);
+    }
+
 }
