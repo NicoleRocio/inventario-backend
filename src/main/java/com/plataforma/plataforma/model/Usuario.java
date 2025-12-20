@@ -2,6 +2,7 @@ package com.plataforma.plataforma.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import java.util.List; // <--- 1. ¡IMPORTANTE! Agrega esta importación
 
 @Entity
 @Table(name = "usuarios")
@@ -25,7 +26,20 @@ public class Usuario {
     @JsonIgnoreProperties({"usuario"})
     private Empleado empleado;
 
-    // 🔥 Constructor vacío (OBLIGATORIO)
+    // =================================================================
+    // 🔥 ESTA ES LA PARTE QUE FALTABA: CONEXIÓN CON ROLES
+    // =================================================================
+    // "EAGER" obliga a Spring a traer los roles inmediatamente
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "usuario_rol",            // <--- Coincide con la tabla SQL que creaste
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private List<Rol> roles;
+    // =================================================================
+
+    // Constructor vacío (OBLIGATORIO)
     public Usuario() {}
 
     // Getters y Setters
@@ -43,4 +57,8 @@ public class Usuario {
 
     public Empleado getEmpleado() { return empleado; }
     public void setEmpleado(Empleado empleado) { this.empleado = empleado; }
+
+    // 🔥 Getter y Setter de Roles (IMPRESCINDIBLE)
+    public List<Rol> getRoles() { return roles; }
+    public void setRoles(List<Rol> roles) { this.roles = roles; }
 }
